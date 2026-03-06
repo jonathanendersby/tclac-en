@@ -11,7 +11,7 @@ external_components:
     components: [ tclac ]
     refresh: 30s
 
-# Конфигурация ESPHome
+# ESPHome-Konfiguration
 esphome:
   name: ${device_name}
   min_version: 2023.3.0
@@ -118,17 +118,17 @@ captive_portal:
 
 
 # # # # # # # # # # # # # # # # # # # # # # #
-# # # # #     НЕ РЕДАКТИРОВАТЬ!     # # # # #
+# # # # #     NICHT BEARBEITEN!     # # # # #
 # # # # # # # # # # # # # # # # # # # # # # #
 
-# ОБЯЗАТЕЛЬНО отключаем логгирование через UART
+# Das Logging über UART muss unbedingt deaktiviert werden.
 logger:
   baud_rate: 0
 
-# Раздел настроек устройства:
-# - Переключатели
+# Abschnitt „Geräteeinstellungen“:
+# - Schalter
 switch:
-  # Пищалка для подтверждения команд, по умолчанию выключена
+  # Piepser zur Bestätigung von Befehlen, standardmäßig ausgeschaltet
   - name: Beeper
     platform: template
     device_class: switch
@@ -145,7 +145,7 @@ switch:
         lambda: !lambda |-
           id(${device_name}climate).set_beeper_state(false);
   
-  # Индикатор уставки температуры на корпусе внутреннего блока, по умолчанию включен
+  # Temperaturanzeige am Gehäuse des Innengeräts, standardmäßig eingeschaltet
   - name: Display
     platform: template
     device_class: switch
@@ -162,7 +162,7 @@ switch:
         lambda: !lambda |-
           id(${device_name}climate).set_display_state(false);
   
-  # Светодиодная индикация обмена данными с кондиционером, по умолчанию выключена
+  # LED-Anzeige für den Datenaustausch mit der Klimaanlage, standardmäßig ausgeschaltet
   - name: Display on module
     platform: template
     device_class: switch
@@ -195,9 +195,9 @@ switch:
         lambda: !lambda |-
           id(${device_name}climate).set_force_mode_state(false);
 
-# - Выпадающие списки
+# - Dropdown-Listen
 select:
-  # Настройка вертикального качания
+  # Einstellung der vertikalen Schwingung
   - platform: template
     name: Vertical swing
     id: vswing
@@ -219,7 +219,7 @@ select:
             id(${device_name}climate).set_vertical_swing_direction(esphome::tclac::VerticalSwingDirection::DOWNSIDE);
           }
 
-  # Настройка горизонтального качания
+  # Einstellung der horizontalen Schwingung
   - platform: template
     name: Horizontal swing
     id: hswing
@@ -244,7 +244,7 @@ select:
             id(${device_name}climate).set_horizontal_swing_direction(esphome::tclac::HorizontalSwingDirection::RIGHTSIDE);
           }
 
-  # Настройка фиксации вертикальной заслонки
+  # Einstellung der vertikalen Klappenarretierung
   - platform: template
     name: Vertical fixing
     id: vfixing
@@ -275,7 +275,7 @@ select:
             id(${device_name}climate).set_vertical_airflow(esphome::tclac::AirflowVerticalDirection::MAX_DOWN);
           }
 
-  # Настройка фиксации горизонатальных заслонок
+  # Einstellung der horizontalen Klappenarretierung
   - platform: template
     name: Horizontal fixing
     id: hfixing
