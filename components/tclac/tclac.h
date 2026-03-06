@@ -1,10 +1,3 @@
-/**
-* Create by Miguel Ángel López on 20/07/19
-* and modify by xaxexa
-* Refactoring & component making:
-* Соловей с паяльником 15.03.2024
-**/
-
 #ifndef TCL_ESP_TCL_H
 #define TCL_ESP_TCL_H
 
@@ -12,23 +5,14 @@
 #include "esphome/core/defines.h"
 #include "esphome/components/uart/uart.h"
 #include "esphome/components/climate/climate.h"
-#include <cstdint>
-#include <string>
 
 namespace esphome {
 namespace tclac {
-
-#if !defined(ESPHOME_TCLAC_BYTE_TYPE_DEFINED)
-using byte = uint8_t;
-#define ESPHOME_TCLAC_BYTE_TYPE_DEFINED
-#endif
 
 #define SET_TEMP_MASK	0b00001111
 
 #define MODE_POS		7
 #define MODE_MASK		0b00111111
-#define MODE_STATUS_POWER_FLAG 0b00010000
-#define MODE_COMMAND_POWER_FLAG 0b00000100
 
 #define MODE_AUTO		0b00110101
 #define MODE_COOL		0b00110001
@@ -94,10 +78,14 @@ enum class AirflowHorizontalDirection : uint8_t {
 class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, public PollingComponent {
 
 	private:
-        uint8_t checksum;		// dataTX с управлением состоит из 38 байт
-        uint8_t dataTX[38];		// А dataRX по прежнему из 61 байта
-        uint8_t dataRX[61];		// Команда запроса состояния
-        uint8_t poll_message_[8] = {0xBB,0x00,0x01,0x04,0x02,0x01,0x00,0xBD};		// Инициализация и начальное наполнение переменных состоянй переключателей
+		byte checksum;
+		// dataTX mit Steuerung besteht aus 38 Bytes
+		byte dataTX[38];
+		// Und dataRX bleibt weiterhin bei 61 Byte.
+		byte dataRX[61];
+		// Statusabfrage-Befehl
+		byte poll[8] = {0xBB,0x00,0x01,0x04,0x02,0x01,0x00,0xBD};
+		// Initialisierung und anfängliche Füllung der Zustandsvariablen der Schalter
 		bool beeper_status_;
 		bool display_status_;
 		bool force_mode_status_;
@@ -119,7 +107,8 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		}
 
 		void readData();
-        tclacClimate() : PollingComponent(5 * 1000), checksum(0) {		void loop() override;
+		void takeControl();
+		void loop() override;
 		void setup() override;
 		void update() override;
 		void set_beeper_state(bool state);
@@ -130,23 +119,32 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		void set_tx_led_pin(GPIOPin *tx_led_pin);
 		void sendData(byte * message, byte size);
 		void set_module_display_state(bool state);
-        static std::string getHex(const byte *message, size_t size);		void control(const ClimateCall &call) override;
-        void sendData(uint8_t * message, uint8_t size);		void set_vertical_airflow(AirflowVerticalDirection direction);
+		static String getHex(byte *message, byte size);
+		void control(const ClimateCall &call) override;
+		static byte getChecksum(const byte * message, size_t size);
+		void set_vertical_airflow(AirflowVerticalDirection direction);
 		void set_horizontal_airflow(AirflowHorizontalDirection direction);
 		void set_vertical_swing_direction(VerticalSwingDirection direction);
 		void set_horizontal_swing_direction(HorizontalSwingDirection direction);
-		void set_supported_presets(climate::ClimatePresetMask presets);
-                void set_supported_fan_modes(const std::set<climate::ClimateFanMode> &modes);
-        void set_supported_swing_modes(const std::set<climate::ClimateSwingMode> &modes);        void set_supported_presets(const std::set<climate::ClimatePreset> &presets);	protected:
+		void set_supported_presets(const std::set<climate::ClimatePreset> &presets);
+		void set_supported_modes(const std::set<esphome::climate::ClimateMode> &modes);
+		void set_supported_fan_modes(const std::set<esphome::climate::ClimateFanMode> &modes);
+		void set_supported_swing_modes(const std::set<esphome::climate::ClimateSwingMode> &modes);
+		
+	protected:
 		GPIOPin *rx_led_pin_;
 		GPIOPin *tx_led_pin_;
 		ClimateTraits traits() override;
-        std::set<ClimateMode> supported_modes_{};		climate::ClimatePresetMask supported_presets_{};
+		std::set<ClimateMode> supported_modes_{};
+		std::set<ClimatePreset> supported_presets_{};
 		AirflowVerticalDirection vertical_direction_;
-        std::set<ClimateFanMode> supported_fan_modes_{};        std::set<ClimateMode> supported_modes_{};              std::set<ClimatePreset> supported_presets_{};		climate::ClimateSwingModeMask supported_swing_modes_{};
+		std::set<ClimateFanMode> supported_fan_modes_{};
+		AirflowHorizontalDirection horizontal_direction_;
+		VerticalSwingDirection vertical_swing_direction_;
+		std::set<ClimateSwingMode> supported_swing_modes_{};
 		HorizontalSwingDirection horizontal_swing_direction_;
 };
 }
-        std::set<ClimateMode> supported_modes_{};              std::set<ClimatePreset> supported_presets_{};           std::set<ClimateSwingMode> supported_swing_modes_{};
+}
 
 #endif //TCL_ESP_TCL_H
