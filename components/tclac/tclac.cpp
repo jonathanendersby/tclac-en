@@ -9,14 +9,16 @@ namespace tclac{
 ClimateTraits tclacClimate::traits() {
 	auto traits = climate::ClimateTraits();
 
-	traits.set_supports_action(false);
-	traits.set_supports_current_temperature(true);
-	traits.set_supports_two_point_target_temperature(false);
+	traits.add_feature(climate::ClimateFeature::FEATURE_CURRENT_TEMPERATURE);
 
-	traits.set_supported_modes(this->supported_modes_);
-	traits.set_supported_presets(this->supported_presets_);
-	traits.set_supported_fan_modes(this->supported_fan_modes_);
-	traits.set_supported_swing_modes(this->supported_swing_modes_);
+	for (auto mode : this->supported_modes_)
+		traits.add_supported_mode(mode);
+	for (auto preset : this->supported_presets_)
+		traits.add_supported_preset(preset);
+	for (auto fan_mode : this->supported_fan_modes_)
+		traits.add_supported_fan_mode(fan_mode);
+	for (auto swing_mode : this->supported_swing_modes_)
+		traits.add_supported_swing_mode(swing_mode);
 
 	traits.add_supported_mode(climate::CLIMATE_MODE_OFF);			// Off mode always available
 	traits.add_supported_mode(climate::CLIMATE_MODE_AUTO);			// Auto mode always available
