@@ -143,7 +143,7 @@ def validate_visual(config):
 
 # Validate component configuration and apply defaults
 CONFIG_SCHEMA = cv.All(
-    climate.CLIMATE_SCHEMA.extend(
+    climate._CLIMATE_SCHEMA.extend(
         {
             cv.GenerateID(): cv.declare_id(tclacClimate),
             cv.Optional(CONF_BEEPER, default=True): cv.boolean,
