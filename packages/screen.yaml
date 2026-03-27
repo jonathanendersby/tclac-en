@@ -41,24 +41,24 @@ display:
         id(oled_disp).line(0, 11, 127, 11);
         
         if (id(${device_name}climate).mode == CLIMATE_MODE_OFF){
-          id(oled_disp).print(0, 14, id(font1), "Выключен");
+          id(oled_disp).print(0, 14, id(font1), "Off");
         } else if (id(${device_name}climate).mode == CLIMATE_MODE_AUTO){
-          id(oled_disp).print(0, 14, id(font1), "Авто");
+          id(oled_disp).print(0, 14, id(font1), "Auto");
         } else if (id(${device_name}climate).mode == CLIMATE_MODE_COOL){
-          id(oled_disp).print(0, 14, id(font1), "Мороз");
+          id(oled_disp).print(0, 14, id(font1), "Cool");
         } else if (id(${device_name}climate).mode == CLIMATE_MODE_HEAT){
-          id(oled_disp).print(0, 14, id(font1), "Жара");
+          id(oled_disp).print(0, 14, id(font1), "Heat");
         } else if (id(${device_name}climate).mode == CLIMATE_MODE_DRY){
-          id(oled_disp).print(0, 14, id(font1), "Пустыня");
+          id(oled_disp).print(0, 14, id(font1), "Dry");
         } else if (id(${device_name}climate).mode == CLIMATE_MODE_FAN_ONLY){
-          id(oled_disp).print(0, 14, id(font1), "Ветер");
+          id(oled_disp).print(0, 14, id(font1), "Fan");
         }
         
         if (id(beep_mode).state){
-          id(oled_disp).print(60, 0, id(font2), "П");
+          id(oled_disp).print(60, 0, id(font2), "B");
         }
         if (id(display_mode).state){
-          id(oled_disp).print(80, 0, id(font2), "Д");
+          id(oled_disp).print(80, 0, id(font2), "D");
         }
         if (id(wifi_strenght).state > 20){
           id(oled_disp).filled_rectangle(109, 6, 3, 2);
@@ -74,5 +74,5 @@ display:
         }
       }
       else {
-        id(oled_disp).print(0, 0, id(font1), "Готов!");
+        id(oled_disp).print(0, 0, id(font1), "Ready!");
       }

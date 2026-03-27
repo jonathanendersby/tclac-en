@@ -1,17 +1,17 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# # # # #                                   NICHT BEARBEITEN!!                                  # # # # #
+# # # # #                                   DO NOT EDIT!!                                       # # # # #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
-# Klimakomponente
+# Climate component
 external_components:
   - source:
-      url: https://github.com/I-am-nightingale/tclac.git
+      url: https://github.com/jonathanendersby/tclac-en.git
       type: git
       ref: master
     components: [ tclac ]
     refresh: 30s
 
-# ESPHome-Konfiguration
+# ESPHome configuration
 esphome:
   name: ${device_name}
   min_version: 2023.3.0
@@ -118,17 +118,17 @@ captive_portal:
 
 
 # # # # # # # # # # # # # # # # # # # # # # #
-# # # # #     NICHT BEARBEITEN!     # # # # #
+# # # # #       DO NOT EDIT!        # # # # #
 # # # # # # # # # # # # # # # # # # # # # # #
 
-# Das Logging über UART muss unbedingt deaktiviert werden.
+# UART logging must be disabled.
 logger:
   baud_rate: 0
 
-# Abschnitt „Geräteeinstellungen“:
-# - Schalter
+# Device settings:
+# - Switches
 switch:
-  # Piepser zur Bestätigung von Befehlen, standardmäßig ausgeschaltet
+  # Beeper for command confirmation, off by default
   - name: Beeper
     platform: template
     device_class: switch
@@ -145,7 +145,7 @@ switch:
         lambda: !lambda |-
           id(${device_name}climate).set_beeper_state(false);
   
-  # Temperaturanzeige am Gehäuse des Innengeräts, standardmäßig eingeschaltet
+  # Temperature display on indoor unit, on by default
   - name: Display
     platform: template
     device_class: switch
@@ -162,7 +162,7 @@ switch:
         lambda: !lambda |-
           id(${device_name}climate).set_display_state(false);
   
-  # LED-Anzeige für den Datenaustausch mit der Klimaanlage, standardmäßig ausgeschaltet
+  # LED indicator for data exchange with AC, off by default
   - name: Display on module
     platform: template
     device_class: switch
@@ -195,17 +195,17 @@ switch:
         lambda: !lambda |-
           id(${device_name}climate).set_force_mode_state(false);
 
-# - Dropdown-Listen
+# - Dropdowns
 select:
-  # Einstellung der vertikalen Schwingung
+  # Vertical swing direction
   - platform: template
     name: Vertical swing
     id: vswing
     entity_category: config
     options:
-      - "Von oben nach unten"
-      - "In der oberen Hälfte"
-      - "In der unteren Hälfte"
+      - "Top to bottom"
+      - "Upper half"
+      - "Lower half"
     optimistic: true
     restore_value: true
     on_value:
@@ -219,16 +219,16 @@ select:
             id(${device_name}climate).set_vertical_swing_direction(esphome::tclac::VerticalSwingDirection::DOWNSIDE);
           }
 
-  # Einstellung der horizontalen Schwingung
+  # Horizontal swing direction
   - platform: template
     name: Horizontal swing
     id: hswing
     entity_category: config
     options:
-      - "Von links nach rechts"
-      - "Im linken Bereich"
-      - "Im Zentrum"
-      - "Im rechten Bereich"
+      - "Left to right"
+      - "Left area"
+      - "Center"
+      - "Right area"
     optimistic: true
     restore_value: true
     on_value:
@@ -244,18 +244,18 @@ select:
             id(${device_name}climate).set_horizontal_swing_direction(esphome::tclac::HorizontalSwingDirection::RIGHTSIDE);
           }
 
-  # Einstellung der vertikalen Klappenarretierung
+  # Vertical louver fixing
   - platform: template
     name: Vertical fixing
     id: vfixing
     entity_category: config
     options:
-      - "Letzte Position"
-      - "Ganz nach oben"
-      - "In der oberen Hälfte"
-      - "In der Mitte"
-      - "In der unteren Hälfte"
-      - "Ganz nach unten"
+      - "Last position"
+      - "Max up"
+      - "Upper half"
+      - "Center"
+      - "Lower half"
+      - "Max down"
     optimistic: true
     restore_value: true
     on_value:
@@ -275,18 +275,18 @@ select:
             id(${device_name}climate).set_vertical_airflow(esphome::tclac::AirflowVerticalDirection::MAX_DOWN);
           }
 
-  # Einstellung der horizontalen Klappenarretierung
+  # Horizontal louver fixing
   - platform: template
     name: Horizontal fixing
     id: hfixing
     entity_category: config
     options:
-      - "Letzte Position"
-      - "Ganz nach links"
-      - "In der linken Hälfte"
-      - "In der Mitte"
-      - "In der rechten Hälfte"
-      - "Ganz nach rechts"
+      - "Last position"
+      - "Max left"
+      - "Left half"
+      - "Center"
+      - "Right half"
+      - "Max right"
     optimistic: true
     restore_value: true
     on_value:

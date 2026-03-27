@@ -1,60 +1,60 @@
 substitutions:
-# Eindeutiger Name für diese Konfiguration – verwende nur lateinische Buchstaben und Zahlen,
-# keine Leerzeichen oder Sonderzeichen, z. B. "tclac".
-# Wenn du mehrere Klimamodule hast, muss device_name entsprechend geändert werden,
-# z. B. durch Anhängen von Zahlen: tclac1, tclac2, tclac3…
+# Unique name for this configuration — use only lowercase letters and numbers,
+# no spaces or special characters, e.g. "tclac".
+# If you have multiple climate modules, change device_name accordingly,
+# e.g. by appending numbers: tclac1, tclac2, tclac3...
   device_name: tclac
-# Menschlich lesbarer Name für das Klimagerät, angezeigt in der Benutzeroberfläche:
+# Human-readable name for the climate device, shown in the UI:
   humanly_name: TCL Air Conditioner
-# WLAN-Zugangsdaten – können alternativ in der Datei "secret" in ESPHome gespeichert sein, sonst hier bearbeiten:
-# Name des WLAN-Netzwerks:
+# WiFi credentials — can alternatively be stored in the "secret" file in ESPHome, otherwise edit here:
+# WiFi network name:
   wifi_ssid: !secret wifi_ssid
-# WLAN-Passwort:
+# WiFi password:
   wifi_password: !secret wifi_password
-# Passwort für den Wiederherstellungsmodus – der Hotspot heißt dann: "{device_name} Fallback Hotspot"
+# Recovery mode password — the hotspot will be named: "{device_name} Fallback Hotspot"
   recovery_pass: mKSzmBdt7DAj
-# Passwort für OTA-Updates – wird einmal generiert und dauerhaft verwendet:
+# OTA update password — generated once and used permanently:
   ota_pass: 90cf525a594c8bb2cbf917bc2c2fa058
-# API-Schlüssel zur Verbindung mit Home Assistant – neuen Schlüssel hier generieren: https://esphome.io/components/api.html
+# API key for connecting to Home Assistant — generate a new key here: https://esphome.io/components/api.html
   api_key: lmUoWsWs1oqSfJqLFsA6PisHSx4Y1G+iu7V3PDIqpXk=
-# GPIO-Pins des Moduls, an die UART angeschlossen ist:
+# GPIO pins on the module where UART is connected:
   uart_rx: GPIO3
   uart_tx: GPIO1
-# GPIO-Pins für Status-LEDs (Empfang/Senden). Funktionieren nur, wenn "leds" in "packages" aktiviert ist.
-# Falls du keine LEDs verwenden möchtest, kannst du hier beliebige Werte eintragen.
+# GPIO pins for status LEDs (receive/transmit). Only work if "leds" is enabled in "packages".
+# If you don't want to use LEDs, you can enter any values here.
   receive_led: GPIO6
   transmit_led: GPIO4
 
-# Eingebundene Dateien – werden automatisch aus dem Internet geladen und aktualisiert.
-# Kommentiere die gewünschten Optionen ein.
-# Beschreibung der Optionen:
-# - packages/leds.yaml – LEDs zur Anzeige von Senden/Empfangen; Pins über receive_led / transmit_led definieren
+# Included files — automatically downloaded from the internet and updated.
+# Uncomment the options you want.
+# Description of options:
+# - packages/leds.yaml — LEDs to indicate transmit/receive; pins defined via receive_led / transmit_led
 #
-# Alle eingetragenen Zeilen müssen exakt auf dieser Einrückungsebene stehen – sonst kommt es zu Fehlern!
+# All lines must be at exactly this indentation level — otherwise errors will occur!
 packages:
   remote_package:
-    url: https://github.com/sorz2122/tclac.git
+    url: https://github.com/jonathanendersby/tclac-en.git
     ref: master
     files:
-    # v – Zeilen müssen exakt hier ausgerichtet sein, sonst gibt’s Probleme!
-      - packages/core.yaml # Das Herzstück des Ganzen
+    # v — lines must be aligned exactly here, otherwise problems!
+      - packages/core.yaml # The core of the whole thing
       # - packages/leds.yaml
     refresh: 30s
 
-# Ausgewähltes Modul, das mit dieser Firmware geflasht wird.
-# Vorbereitete Konfigurationen können durch Entfernen des Kommentars verwendet werden:
+# Selected module to be flashed with this firmware.
+# Pre-made configurations can be used by removing the comment:
 
 # ESP-01S
 esp8266:
   board: esp01_1m
 
-# Hommyn HDN/WFN-02-01 (aus dem ersten Artikel)
+# Hommyn HDN/WFN-02-01
 #esp32:
 #  board: esp32-c3-devkitm-1
 #  framework:
 #    type: arduino
 
-# Status-LED – optional aktivieren, wenn freie Pins vorhanden sind
+# Status LED — optionally enable if free pins are available
 #status_led:
 #  pin:
 #    number: GPIO5

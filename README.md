@@ -1,30 +1,30 @@
 # 🌀 TCL Air Conditioner Integration for Home Assistant
 
-> 🇩🇪 Übersetzt mit ChatGPT – erfolgreich getestet mit **TCL TAC-12CHDA**  
-> Einfaches DIY-Projekt mit ESP32 + USB-Kabel. Keine Cloud nötig.
+> 🇬🇧 English fork of [sorz2122/tclac](https://github.com/sorz2122/tclac) — tested with **TCL TAC-12CHDA**
+> Simple DIY project with ESP32 + USB cable. No cloud required.
 
 ---
 
-## 🛠️ Was du brauchst
+## 🛠️ What you need
 
-- **ESP32** (z. B. ESP32-C3, WROOM32, NodeMCU)
-- **USB-A-Stecker oder -Kabel**  
-  👉 Ich habe dieses verwendet: [AliExpress-Link](https://www.aliexpress.com/item/1005005776162012.html)
-- **Home Assistant mit ESPHome (ab Version 2023.3.0)**
+- **ESP32** (e.g. ESP32-C3, WROOM32, NodeMCU)
+- **USB-A plug or cable**
+  👉 I used this one: [AliExpress link](https://www.aliexpress.com/item/1005005776162012.html)
+- **Home Assistant with ESPHome (version 2023.3.0 or later)**
 
 ---
 
-## 🔌 Verkabelung
+## 🔌 Wiring
 
-| USB-A Pin | Kabelfarbe | → ESP32 Pin |
-|-----------|------------|--------------|
-| GND       | Schwarz    | VIN/VCC      |
-| D+        | Grün       | GND          |
-| D-        | Grau       | RXD          |
-| VBUS      | Rot        | TXD          |
+| USB-A Pin | Wire colour | → ESP32 Pin |
+|-----------|-------------|-------------|
+| GND       | Black       | VIN/VCC     |
+| D+        | Green       | GND         |
+| D-        | Grey        | RXD         |
+| VBUS      | Red         | TXD         |
 
-### 🔍 Beispielbilder
-(Beachte, dass ich hier nicht auf die Farben der Kabel geachtet habe. Die Farben in der Tabelle entsprechen jedoch in der Regel gängigen USB-A-Kabeln, die man einfach abschneiden kann.)
+### 🔍 Example photos
+(Note that I didn't pay attention to wire colours here. The colours in the table above correspond to typical USB-A cables that you can simply cut.)
 
 <img src="https://github.com/user-attachments/assets/9b674e06-41ca-4bcf-b09b-691a5fbd8545" width="400"/>
 <br/>
@@ -35,53 +35,53 @@
 
 ---
 
-## 🧠 Einrichtung in Home Assistant
+## 🧠 Setup in Home Assistant
 
-> Die Lösung basiert auf **ESPHome** und funktioniert nur mit Home Assistant.
+> This solution is based on **ESPHome** and only works with Home Assistant.
 
-### 1. ESPHome installieren
+### 1. Install ESPHome
 
-- In Home Assistant unter **Einstellungen → Add-ons → ESPHome** installieren
+- In Home Assistant go to **Settings → Add-ons → ESPHome** and install
 
-### 2. Neues Gerät erstellen
+### 2. Create a new device
 
-- Im ESPHome-Dashboard → "New Device"
-- Deinen ESP32-Typ auswählen, z. B. `esp32-c3-devkitm-1` oder `nodemcu-32s`
+- In the ESPHome dashboard → "New Device"
+- Select your ESP32 type, e.g. `esp32-c3-devkitm-1` or `nodemcu-32s`
 
-### 3. Konfiguration einfügen
+### 3. Paste configuration
 
-#### Option A: Einfache Konfiguration
-[📄 Sample_conf.yaml](https://github.com/sorz2122/tclac/blob/master/Sample_conf.yaml)
+#### Option A: Simple configuration
+[📄 Sample_conf.yaml](https://github.com/jonathanendersby/tclac-en/blob/master/Sample_conf.yaml)
 
-#### Option B: Erweiterte Konfiguration
-[📄 TCL-Conditioner.yaml](https://github.com/sorz2122/tclac/blob/master/TCL-Conditioner.yaml)
+#### Option B: Full configuration
+[📄 TCL-Conditioner.yaml](https://github.com/jonathanendersby/tclac-en/blob/master/TCL-Conditioner.yaml)
 
-📝 **Wichtig:**  
-- WLAN-Daten, Gerätename etc. anpassen  
-- Kommentare im YAML helfen beim Einrichten
+📝 **Important:**
+- Update WiFi credentials, device name, etc.
+- Comments in the YAML help with setup
 
-### 4. Auf ESP32 flashen
+### 4. Flash to ESP32
 
-- USB-Kabel anschließen oder OTA (Over-the-Air) verwenden
+- Connect via USB cable or use OTA (Over-the-Air)
 
 ---
 
-## ✅ Kompatible Klimaanlagen
+## ✅ Compatible air conditioners
 
-Diese Modelle wurden erfolgreich getestet:
+These models have been successfully tested:
 
 - **TCL:** TAC-07CHSA / TAC-09CHSA / TAC-12CHSA / TAC-12CHDA
 - **Daichi:** AIR20AVQ1, AIR25AVQS1R-1, DA35EVQ1-1
 - **Axioma:** ASX09H1 / ASB09H1
-- **Dantex:** RK-12SATI / RK-12SATIE  
-- ...und ähnliche Modelle
+- **Dantex:** RK-12SATI / RK-12SATIE
+- ...and similar models
 
-⚠️ **Hinweis:**  
-Auch wenn die Modellbezeichnung passt, kann es Unterschiede geben (kein USB-Anschluss, kein UART auf der Platine etc.).
+⚠️ **Note:**
+Even if the model name matches, there may be differences (no USB port, no UART on the board, etc.).
 
 ---
 
-## ☕ Unterstützung
+## ☕ Support
 
 https://buymeacoffee.com/sorz2122
 
@@ -90,16 +90,17 @@ https://buymeacoffee.com/sorz2122
 
 ---
 
-## 🔧 Erweiterte Konfiguration per Remote Package
+## 🔧 Advanced configuration via remote package
 
-Du kannst die Konfiguration modular laden:
+You can load the configuration modularly:
 
 ```yaml
 packages:
   remote_package:
-    url: https://github.com/sorz2122/tclac.git
+    url: https://github.com/jonathanendersby/tclac-en.git
     ref: master
     files:
-      - packages/core.yaml   # Hauptmodul
+      - packages/core.yaml   # Main module
       # - packages/leds.yaml # Optional
     refresh: 30s
+```

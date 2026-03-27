@@ -79,13 +79,13 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 
 	private:
 		byte checksum;
-		// dataTX mit Steuerung besteht aus 38 Bytes
+		// TX control message is 38 bytes
 		byte dataTX[38];
-		// Und dataRX bleibt weiterhin bei 61 Byte.
+		// RX status message is 61 bytes
 		byte dataRX[61];
-		// Statusabfrage-Befehl
+		// Status poll command
 		byte poll[8] = {0xBB,0x00,0x01,0x04,0x02,0x01,0x00,0xBD};
-		// Initialisierung und anfängliche Füllung der Zustandsvariablen der Schalter
+		// Initialisation and initial state variables for switches
 		bool beeper_status_;
 		bool display_status_;
 		bool force_mode_status_;
@@ -97,9 +97,9 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		int target_temperature_set = 0;
 		uint8_t switch_climate_mode = 0;
 		bool allow_take_control = false;
-		
+
 		esphome::climate::ClimateTraits traits_;
-		
+
 	public:
 
 		tclacClimate() : PollingComponent(5 * 1000) {
@@ -130,7 +130,7 @@ class tclacClimate : public climate::Climate, public esphome::uart::UARTDevice, 
 		void set_supported_modes(const std::set<esphome::climate::ClimateMode> &modes);
 		void set_supported_fan_modes(const std::set<esphome::climate::ClimateFanMode> &modes);
 		void set_supported_swing_modes(const std::set<esphome::climate::ClimateSwingMode> &modes);
-		
+
 	protected:
 		GPIOPin *rx_led_pin_;
 		GPIOPin *tx_led_pin_;
