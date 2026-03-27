@@ -9,7 +9,7 @@ namespace tclac{
 ClimateTraits tclacClimate::traits() {
 	auto traits = climate::ClimateTraits();
 
-	traits.add_feature(climate::ClimateFeature::FEATURE_CURRENT_TEMPERATURE);
+	traits.set_supports_current_temperature(true);
 
 	for (auto mode : this->supported_modes_)
 		traits.add_supported_mode(mode);
