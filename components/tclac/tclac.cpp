@@ -21,7 +21,7 @@ ClimateTraits tclacClimate::traits() {
 		traits.add_supported_swing_mode(swing_mode);
 
 	traits.add_supported_mode(climate::CLIMATE_MODE_OFF);			// Off mode always available
-	traits.add_supported_mode(climate::CLIMATE_MODE_AUTO);			// Auto mode always available
+	traits.add_supported_mode(climate::CLIMATE_MODE_HEAT_COOL);		// AC "Auto" always available; reported as HEAT_COOL so HA shows a setpoint (HA hides it in AUTO)
 	traits.add_supported_fan_mode(climate::CLIMATE_FAN_AUTO);		// Auto fan mode always available
 	traits.add_supported_swing_mode(climate::CLIMATE_SWING_OFF);	// Swing off always available
 	traits.add_supported_preset(ClimatePreset::CLIMATE_PRESET_NONE);// No preset as safety default
@@ -102,7 +102,7 @@ void tclacClimate::readData() {
 
 		switch (modeswitch) {
 			case MODE_AUTO:
-				mode = climate::CLIMATE_MODE_AUTO;
+				mode = climate::CLIMATE_MODE_HEAT_COOL;
 				break;
 			case MODE_COOL:
 				mode = climate::CLIMATE_MODE_COOL;
@@ -117,7 +117,7 @@ void tclacClimate::readData() {
 				mode = climate::CLIMATE_MODE_HEAT;
 				break;
 			default:
-				mode = climate::CLIMATE_MODE_AUTO;
+				mode = climate::CLIMATE_MODE_HEAT_COOL;
 		}
 
 		if ( dataRX[FAN_QUIET_POS] & FAN_QUIET) {
@@ -277,7 +277,7 @@ void tclacClimate::takeControl() {
 			dataTX[7] += 0b00000000;
 			dataTX[8] += 0b00000000;
 			break;
-		case climate::CLIMATE_MODE_AUTO:
+		case climate::CLIMATE_MODE_HEAT_COOL:
 			dataTX[7] += 0b00000100;
 			dataTX[8] += 0b00001000;
 			break;
